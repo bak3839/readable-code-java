@@ -159,6 +159,7 @@ public class MinesweeperGame {
     }
 
     private static void open(int row, int col) {
+
         if (row < 0 || row >= 8 || col < 0 || col >= 10) {
             return;
         }
