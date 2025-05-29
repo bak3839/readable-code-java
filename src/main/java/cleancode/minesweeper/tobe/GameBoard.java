@@ -1,9 +1,6 @@
 package cleancode.minesweeper.tobe;
 
-import cleancode.minesweeper.tobe.cell.Cell;
-import cleancode.minesweeper.tobe.cell.EmptyCell;
-import cleancode.minesweeper.tobe.cell.LandMineCell;
-import cleancode.minesweeper.tobe.cell.NumberCell;
+import cleancode.minesweeper.tobe.cell.*;
 import cleancode.minesweeper.tobe.gamelevel.GameLevel;
 import cleancode.minesweeper.tobe.position.CellPosition;
 import cleancode.minesweeper.tobe.position.RelativePosition;
@@ -69,10 +66,8 @@ public class GameBoard {
     }
 
     public boolean isAllCellChecked() {
-        return Arrays.stream(board) // String 이중 배열 -> String 배열 stream 생성
-                .flatMap(Arrays::stream) // String 배열 stream 생성 -> String stream 생성
-                // CLOSED_CELL_SIGN 상수이기 때문에 NPE 발생하지 않음
-                .allMatch(Cell::isChecked); // CLOSED_CELL_SIGN 일치하는게 없으면
+        Cells cells = Cells.from(board);
+        return cells.isAllChecked();
     }
 
     public boolean isInvalidCellPosition(CellPosition cellPosition) {
