@@ -5,6 +5,7 @@ import cleancode.studycafe.mytobe.io.InputHandler;
 import cleancode.studycafe.mytobe.io.OutputHandler;
 import cleancode.studycafe.mytobe.io.StudyCafeFileHandler;
 import cleancode.studycafe.mytobe.model.*;
+import cleancode.studycafe.mytobe.pass.StudyCafePasses;
 
 import java.util.List;
 
@@ -17,8 +18,8 @@ public class StudyCafePassMachine {
         try {
             showStartComment();
 
-            StudyCafePassType userSelectedPassType = getUserSelectedPassType();
-            List<StudyCafePass> passes = getPassesOfPassType(userSelectedPassType);
+            StudyCafePassType userSelectedPassType = selectPassType();
+            StudyCafePasses passes = getPassesOfPassType(userSelectedPassType);
             StudyCafePass userSelectedPass = getUserSelectedPass(passes);
 
             if (userSelectedPassType.isSamePassType(StudyCafePassType.HOURLY)) {
@@ -32,10 +33,7 @@ public class StudyCafePassMachine {
             else if (userSelectedPassType.isSamePassType(StudyCafePassType.FIXED)) {
                 List<StudyCafeLockerPass> lockerPasses = studyCafeFileHandler.readLockerPasses();
                 StudyCafeLockerPass lockerPass = lockerPasses.stream()
-                    .filter(option ->
-                        option.getPassType() == userSelectedPass.getPassType()
-                            && option.getDuration() == userSelectedPass.getDuration()
-                    )
+                    .filter(option -> option.isAvailablePassType(userSelectedPass))
                     .findFirst()
                     .orElse(null);
 
@@ -58,18 +56,19 @@ public class StudyCafePassMachine {
         }
     }
 
-    private StudyCafePassType getUserSelectedPassType() {
+    private StudyCafePassType selectPassType() {
         outputHandler.askPassTypeSelection();
         return inputHandler.getPassTypeSelectingUserAction();
     }
 
-    private List<StudyCafePass> getPassesOfPassType(StudyCafePassType userSelectedPassType) {
-        return studyCafeFileHandler.readStudyCafePasses(userSelectedPassType);
+    private StudyCafePasses getPassesOfPassType(StudyCafePassType userSelectedPassType) {
+        StudyCafePasses studyCafePasses = studyCafeFileHandler.readStudyCafePasses2();
+        return studyCafePasses.findByPassType(userSelectedPassType);
     }
 
-    private StudyCafePass getUserSelectedPass(List<StudyCafePass> passes) {
+    private StudyCafePass getUserSelectedPass(StudyCafePasses passes) {
         outputHandler.showPassListForSelection(passes);
-        return inputHandler.getSelectPass(passes);
+        return inputHandler.getSelectPass2(passes);
     }
 
     private void showStartComment() {

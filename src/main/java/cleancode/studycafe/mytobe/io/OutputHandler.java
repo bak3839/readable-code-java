@@ -1,8 +1,8 @@
 package cleancode.studycafe.mytobe.io;
 
-import cleancode.studycafe.mytobe.model.Passes;
 import cleancode.studycafe.mytobe.model.StudyCafeLockerPass;
 import cleancode.studycafe.mytobe.model.StudyCafePass;
+import cleancode.studycafe.mytobe.pass.StudyCafePasses;
 
 import java.util.List;
 
@@ -26,6 +26,17 @@ public class OutputHandler {
     public void showPassListForSelection(List<StudyCafePass> passes) {
         System.out.println();
         System.out.println("이용권 목록");
+        for (int index = 0; index < passes.size(); index++) {
+            StudyCafePass pass = passes.get(index);
+            System.out.println(String.format("%s. ", index + 1) + pass.display());
+        }
+    }
+
+    public void showPassListForSelection(StudyCafePasses studyCafePasses) {
+        System.out.println();
+        System.out.println("이용권 목록");
+        // TODO: 고민
+        List<StudyCafePass> passes = studyCafePasses.getPasses();
         for (int index = 0; index < passes.size(); index++) {
             StudyCafePass pass = passes.get(index);
             System.out.println(String.format("%s. ", index + 1) + pass.display());

@@ -32,4 +32,8 @@ public class StudyCafeLockerPass {
         return passType.display(duration, price);
     }
 
+    public boolean isAvailablePassType(StudyCafePass userSelectedPass) {
+        return userSelectedPass.isSamePassType(this.passType)
+                && userSelectedPass.isSameDuration(this.duration);
+    }
 }

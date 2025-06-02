@@ -3,6 +3,7 @@ package cleancode.studycafe.mytobe.io;
 import cleancode.studycafe.mytobe.model.StudyCafeLockerPass;
 import cleancode.studycafe.mytobe.model.StudyCafePass;
 import cleancode.studycafe.mytobe.model.StudyCafePassType;
+import cleancode.studycafe.mytobe.pass.StudyCafePasses;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,6 +36,29 @@ public class StudyCafeFileHandler {
             return studyCafePasses.stream()
                     .filter(studyCafePass -> studyCafePass.isSamePassType(userSelectedCafePassType))
                     .toList();
+        } catch (IOException e) {
+            throw new RuntimeException("파일을 읽는데 실패했습니다.", e);
+        }
+    }
+
+    public StudyCafePasses readStudyCafePasses2() {
+        try {
+            List<String> lines = Files.readAllLines(PASS_LIST_PATH);
+            List<StudyCafePass> studyCafePasses = new ArrayList<>();
+
+            for (String line : lines) {
+                String[] values = line.split(",");
+                StudyCafePassType studyCafePassType = StudyCafePassType.valueOf(values[0]);
+                int duration = Integer.parseInt(values[1]);
+                int price = Integer.parseInt(values[2]);
+                double discountRate = Double.parseDouble(values[3]);
+
+                StudyCafePass studyCafePass = StudyCafePass.of(studyCafePassType, duration, price, discountRate);
+                studyCafePasses.add(studyCafePass);
+            }
+
+            // 입장권을 읽어오고 사용자가 선택한 타입에 맞는 것만 filter 처리
+            return StudyCafePasses.of(studyCafePasses);
         } catch (IOException e) {
             throw new RuntimeException("파일을 읽는데 실패했습니다.", e);
         }

@@ -3,6 +3,7 @@ package cleancode.studycafe.mytobe.io;
 import cleancode.studycafe.mytobe.exception.AppException;
 import cleancode.studycafe.mytobe.model.StudyCafePass;
 import cleancode.studycafe.mytobe.model.StudyCafePassType;
+import cleancode.studycafe.mytobe.pass.StudyCafePasses;
 
 import java.util.List;
 import java.util.Scanner;
@@ -32,9 +33,14 @@ public class InputHandler {
         return passes.get(selectedIndex);
     }
 
+    public StudyCafePass getSelectPass2(StudyCafePasses passes) {
+        String userInput = SCANNER.nextLine();
+        int selectedIndex = Integer.parseInt(userInput) - 1;
+        return passes.getSelectedPass(selectedIndex);
+    }
+
     public boolean getLockerSelection() {
         String userInput = SCANNER.nextLine();
         return "1".equals(userInput);
     }
-
 }
