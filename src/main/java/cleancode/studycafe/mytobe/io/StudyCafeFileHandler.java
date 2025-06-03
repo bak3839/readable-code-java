@@ -3,6 +3,7 @@ package cleancode.studycafe.mytobe.io;
 import cleancode.studycafe.mytobe.model.StudyCafeLockerPass;
 import cleancode.studycafe.mytobe.model.StudyCafePass;
 import cleancode.studycafe.mytobe.model.StudyCafePassType;
+import cleancode.studycafe.mytobe.pass.StudyCafeLockerPasses;
 import cleancode.studycafe.mytobe.pass.StudyCafePasses;
 
 import java.io.IOException;
@@ -79,6 +80,26 @@ public class StudyCafeFileHandler {
             }
 
             return lockerPasses;
+        } catch (IOException e) {
+            throw new RuntimeException("파일을 읽는데 실패했습니다.", e);
+        }
+    }
+
+    public StudyCafeLockerPasses readLockerPasses2() {
+        try {
+            List<String> lines = Files.readAllLines(LOCKER_PATH);
+            List<StudyCafeLockerPass> lockerPasses = new ArrayList<>();
+            for (String line : lines) {
+                String[] values = line.split(",");
+                StudyCafePassType studyCafePassType = StudyCafePassType.valueOf(values[0]);
+                int duration = Integer.parseInt(values[1]);
+                int price = Integer.parseInt(values[2]);
+
+                StudyCafeLockerPass lockerPass = StudyCafeLockerPass.of(studyCafePassType, duration, price);
+                lockerPasses.add(lockerPass);
+            }
+
+            return StudyCafeLockerPasses.of(lockerPasses);
         } catch (IOException e) {
             throw new RuntimeException("파일을 읽는데 실패했습니다.", e);
         }

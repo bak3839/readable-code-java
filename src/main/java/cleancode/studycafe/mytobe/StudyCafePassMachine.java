@@ -5,6 +5,7 @@ import cleancode.studycafe.mytobe.io.InputHandler;
 import cleancode.studycafe.mytobe.io.OutputHandler;
 import cleancode.studycafe.mytobe.io.StudyCafeFileHandler;
 import cleancode.studycafe.mytobe.model.*;
+import cleancode.studycafe.mytobe.pass.StudyCafeLockerPasses;
 import cleancode.studycafe.mytobe.pass.StudyCafePasses;
 
 import java.util.List;
@@ -23,19 +24,11 @@ public class StudyCafePassMachine {
             StudyCafePass userSelectedPass = getUserSelectedPass(passes);
 
             if (userSelectedPassType.isSamePassType(StudyCafePassType.HOURLY)) {
-                outputHandler.showPassOrderSummary(userSelectedPass, null);
-            }
-
-            else if (userSelectedPassType.isSamePassType(StudyCafePassType.WEEKLY)) {
-                outputHandler.showPassOrderSummary(userSelectedPass, null);
-            }
-
-            else if (userSelectedPassType.isSamePassType(StudyCafePassType.FIXED)) {
-                List<StudyCafeLockerPass> lockerPasses = studyCafeFileHandler.readLockerPasses();
-                StudyCafeLockerPass lockerPass = lockerPasses.stream()
-                    .filter(option -> option.isAvailablePassType(userSelectedPass))
-                    .findFirst()
-                    .orElse(null);
+                outputHandler.showPassOrderSummary(userSelectedPass);
+            } else if (userSelectedPassType.isSamePassType(StudyCafePassType.WEEKLY)) {
+                outputHandler.showPassOrderSummary(userSelectedPass);
+            } else if (userSelectedPassType.isSamePassType(StudyCafePassType.FIXED)) {
+                StudyCafeLockerPass lockerPass = getLockerPass(userSelectedPass);
 
                 boolean lockerSelection = false;
                 if (lockerPass != null) {
@@ -46,7 +39,7 @@ public class StudyCafePassMachine {
                 if (lockerSelection) {
                     outputHandler.showPassOrderSummary(userSelectedPass, lockerPass);
                 } else {
-                    outputHandler.showPassOrderSummary(userSelectedPass, null);
+                    outputHandler.showPassOrderSummary(userSelectedPass);
                 }
             }
         } catch (AppException e) {
@@ -54,6 +47,11 @@ public class StudyCafePassMachine {
         } catch (Exception e) {
             outputHandler.showSimpleMessage("알 수 없는 오류가 발생했습니다.");
         }
+    }
+
+    private void showStartComment() {
+        outputHandler.showWelcomeMessage();
+        outputHandler.showAnnouncement();
     }
 
     private StudyCafePassType selectPassType() {
@@ -71,8 +69,8 @@ public class StudyCafePassMachine {
         return inputHandler.getSelectPass2(passes);
     }
 
-    private void showStartComment() {
-        outputHandler.showWelcomeMessage();
-        outputHandler.showAnnouncement();
+    private StudyCafeLockerPass getLockerPass(StudyCafePass userSelectedPass) {
+        StudyCafeLockerPasses lockerPasses = studyCafeFileHandler.readLockerPasses2();
+        return lockerPasses.findAvailableLocker(userSelectedPass);
     }
 }

@@ -45,4 +45,8 @@ public class StudyCafePass {
     public boolean isSameDuration(int lockerDuration) {
         return this.duration == lockerDuration;
     }
+
+    public int calculateDiscountPrice() {
+        return (int) (price * discountRate);
+    }
 }
