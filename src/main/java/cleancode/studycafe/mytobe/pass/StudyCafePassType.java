@@ -1,4 +1,4 @@
-package cleancode.studycafe.mytobe.model;
+package cleancode.studycafe.mytobe.pass;
 
 public enum StudyCafePassType implements PassTypeProvidable {
 

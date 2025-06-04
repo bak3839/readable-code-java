@@ -1,9 +1,5 @@
 package cleancode.studycafe.mytobe.pass;
 
-import cleancode.studycafe.mytobe.model.StudyCafeLockerPass;
-import cleancode.studycafe.mytobe.model.StudyCafePass;
-import cleancode.studycafe.mytobe.model.StudyCafePassType;
-
 import java.util.List;
 
 public class StudyCafeLockerPasses {
@@ -17,9 +13,9 @@ public class StudyCafeLockerPasses {
         return new StudyCafeLockerPasses(lockerPasses);
     }
 
-    public StudyCafeLockerPass findAvailableLocker(StudyCafePass userSelectedPass) {
+    public StudyCafeLockerPass findAvailableLocker(StudyCafeSeatPass userSelectedPass) {
         return lockerPasses.stream()
-                .filter(option -> option.isAvailablePassType(userSelectedPass))
+                .filter(option -> option.isAvailableLocker(userSelectedPass))
                 .findFirst()
                 .orElse(null);
     }

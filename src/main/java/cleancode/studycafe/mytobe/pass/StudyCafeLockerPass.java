@@ -1,4 +1,4 @@
-package cleancode.studycafe.mytobe.model;
+package cleancode.studycafe.mytobe.pass;
 
 public class StudyCafeLockerPass {
 
@@ -16,23 +16,15 @@ public class StudyCafeLockerPass {
         return new StudyCafeLockerPass(passType, duration, price);
     }
 
-    public StudyCafePassType getPassType() {
-        return passType;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
     public int getPrice() {
         return price;
     }
 
-    public String display() {
+    public String getLockerInfo() {
         return passType.display(duration, price);
     }
 
-    public boolean isAvailablePassType(StudyCafePass userSelectedPass) {
+    public boolean isAvailableLocker(StudyCafeSeatPass userSelectedPass) {
         return userSelectedPass.isSamePassType(this.passType)
                 && userSelectedPass.isSameDuration(this.duration);
     }
