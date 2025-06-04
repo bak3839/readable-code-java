@@ -50,9 +50,9 @@ public class StudyCafeSeatPass implements StudyCafePass {
         return price;
     }
 
-    public double getDiscountRate() {
-        return discountRate;
-    }
-
     private static final Set<StudyCafePassType> LOCKER_TYPES = Set.of(StudyCafePassType.FIXED);
+
+    public int getDiscountPrice() {
+        return (int) (this.price * this.discountRate);
+    }
 }
