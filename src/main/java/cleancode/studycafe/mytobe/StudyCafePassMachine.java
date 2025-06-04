@@ -22,7 +22,7 @@ public class StudyCafePassMachine {
 
             StudyCafeLockerPass lockerPass = getLockerPass(userSelectedPass);
 
-            lockerSelection(userSelectedPass, lockerPass);
+            purchaseLocker(lockerPass);
         } catch (AppException e) {
             outputHandler.showSimpleMessage(e.getMessage());
         } catch (Exception e) {
@@ -55,17 +55,20 @@ public class StudyCafePassMachine {
         return lockerPasses.findAvailableLocker(userSelectedPass);
     }
 
-    private void lockerSelection(StudyCafeSeatPass userSelectedPass, StudyCafeLockerPass lockerPass) {
-        boolean lockerSelection = false;
-        if (lockerPass != null) {
-            outputHandler.askLockerPass(lockerPass);
-            lockerSelection = inputHandler.getLockerSelection();
+    private void purchaseLocker(StudyCafeLockerPass lockerPass) {
+        if(lockerPass == null) {
+            return;
         }
 
-        if (lockerSelection) {
-            outputHandler.showPassOrderSummary(userSelectedPass, lockerPass);
-        } else {
-            outputHandler.showPassOrderSummary(userSelectedPass);
+        outputHandler.askPurchaseLockerPass(lockerPass);
+        if(inputHandler.getLockerSelection()) {
+            lockerPass.purchaseLocker();
         }
+
+//        if (lockerSelection) {
+//            outputHandler.showPassOrderSummary(userSelectedPass, lockerPass);
+//        } else {
+//            outputHandler.showPassOrderSummary(userSelectedPass);
+//        }
     }
 }

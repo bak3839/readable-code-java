@@ -1,5 +1,6 @@
 package cleancode.studycafe.mytobe.io;
 
+import cleancode.studycafe.mytobe.order.StudyCafePassOrder;
 import cleancode.studycafe.mytobe.pass.StudyCafeLockerPass;
 import cleancode.studycafe.mytobe.pass.StudyCafeSeatPass;
 import cleancode.studycafe.mytobe.pass.StudyCafeSeatPasses;
@@ -43,7 +44,7 @@ public class OutputHandler {
         }
     }
 
-    public void askLockerPass(StudyCafeLockerPass lockerPass) {
+    public void askPurchaseLockerPass(StudyCafeLockerPass lockerPass) {
         System.out.println();
         String askMessage = String.format(
             "사물함을 이용하시겠습니까? (%s)",
