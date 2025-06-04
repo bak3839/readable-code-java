@@ -4,6 +4,7 @@ import cleancode.studycafe.mytobe.exception.AppException;
 import cleancode.studycafe.mytobe.io.InputHandler;
 import cleancode.studycafe.mytobe.io.OutputHandler;
 import cleancode.studycafe.mytobe.io.StudyCafeFileHandler;
+import cleancode.studycafe.mytobe.order.StudyCafePassOrder;
 import cleancode.studycafe.mytobe.pass.*;
 
 public class StudyCafePassMachine {
@@ -21,8 +22,9 @@ public class StudyCafePassMachine {
             StudyCafeSeatPass userSelectedPass = getUserSelectedPass(passes);
 
             StudyCafeLockerPass lockerPass = getLockerPass(userSelectedPass);
-
             purchaseLocker(lockerPass);
+
+            showPassOrderSummary(userSelectedPass, lockerPass);
         } catch (AppException e) {
             outputHandler.showSimpleMessage(e.getMessage());
         } catch (Exception e) {
@@ -64,11 +66,10 @@ public class StudyCafePassMachine {
         if(inputHandler.getLockerSelection()) {
             lockerPass.purchaseLocker();
         }
+    }
 
-//        if (lockerSelection) {
-//            outputHandler.showPassOrderSummary(userSelectedPass, lockerPass);
-//        } else {
-//            outputHandler.showPassOrderSummary(userSelectedPass);
-//        }
+    private void showPassOrderSummary(StudyCafeSeatPass userSelectedPass, StudyCafeLockerPass lockerPass) {
+        StudyCafePassOrder studyCafePassOrder = StudyCafePassOrder.of(userSelectedPass, lockerPass);
+        outputHandler.showPassOrderSummary(studyCafePassOrder);
     }
 }

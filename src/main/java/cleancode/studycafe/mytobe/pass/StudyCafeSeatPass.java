@@ -19,7 +19,7 @@ public class StudyCafeSeatPass {
     }
 
     public String getPassInfo() {
-        return passType.display(duration, price);
+        return "이용권: " + passType.display(duration, price);
     }
 
     public boolean isSamePassType(StudyCafePassType passType) {

@@ -18,11 +18,15 @@ public class StudyCafeLockerPass {
     }
 
     public int getPrice() {
-        return price;
+        if(purchaseStatus) {
+            return price;
+        }
+
+        return 0;
     }
 
     public String getLockerInfo() {
-        return passType.display(duration, price);
+        return "사물함: " + passType.display(duration, price);
     }
 
     public boolean isAvailableLocker(StudyCafeSeatPass userSelectedPass) {

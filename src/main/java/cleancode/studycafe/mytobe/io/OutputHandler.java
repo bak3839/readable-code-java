@@ -24,15 +24,6 @@ public class OutputHandler {
         System.out.println("1. 시간 이용권(자유석) | 2. 주단위 이용권(자유석) | 3. 1인 고정석");
     }
 
-    public void showPassListForSelection(List<StudyCafeSeatPass> passes) {
-        System.out.println();
-        System.out.println("이용권 목록");
-        for (int index = 0; index < passes.size(); index++) {
-            StudyCafeSeatPass pass = passes.get(index);
-            System.out.println(String.format("%s. ", index + 1) + pass.getPassInfo());
-        }
-    }
-
     public void showPassListForSelection(StudyCafeSeatPasses studyCafeSeatPasses) {
         System.out.println();
         System.out.println("이용권 목록");
@@ -55,34 +46,17 @@ public class OutputHandler {
         System.out.println("1. 예 | 2. 아니오");
     }
 
-    public void showPassOrderSummary(StudyCafeSeatPass selectedPass) {
+    public void showPassOrderSummary(StudyCafePassOrder studyCafePassOrder) {
         System.out.println();
         System.out.println("이용 내역");
-        System.out.println("이용권: " + selectedPass.getPassInfo());
+        System.out.println(studyCafePassOrder.aboutOrderOfPasses());
 
-        int discountPrice = selectedPass.calculateDiscountPrice();
+        int discountPrice = studyCafePassOrder.orderDiscountPrice();
         if (discountPrice > 0) {
             System.out.println("이벤트 할인 금액: " + discountPrice + "원");
         }
 
-        int totalPrice = selectedPass.calculateTotalPrice();
-        System.out.println("총 결제 금액: " + totalPrice + "원");
-        System.out.println();
-    }
-
-    public void showPassOrderSummary(StudyCafeSeatPass selectedPass, StudyCafeLockerPass lockerPass) {
-        System.out.println();
-        System.out.println("이용 내역");
-        System.out.println("이용권: " + selectedPass.getPassInfo());
-
-        System.out.println("사물함: " + lockerPass.getLockerInfo());
-
-        int discountPrice = selectedPass.calculateDiscountPrice();
-        if (discountPrice > 0) {
-            System.out.println("이벤트 할인 금액: " + discountPrice + "원");
-        }
-
-        int totalPrice = selectedPass.calculateTotalPrice() + lockerPass.getPrice();
+        int totalPrice = studyCafePassOrder.orderTotalPrice();
         System.out.println("총 결제 금액: " + totalPrice + "원");
         System.out.println();
     }
