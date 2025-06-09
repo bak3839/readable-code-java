@@ -15,6 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class StudyCafeLockerPassesTest {
     private final LockerPassProvider lockerPassProvider = new LockerPassFileReader();
 
+    /**
+     * 구매할 수 없다 vs 사용할 수 없다
+     */
     @Test
     @DisplayName("시간 단위 이용권은 사물함을 사용할 수 없다.")
     void hourlyPassCannotUseLocker() {
@@ -44,7 +47,7 @@ class StudyCafeLockerPassesTest {
     }
 
     @Test
-    @DisplayName("1인 고정석을 선택하면 1인 고정석 이용 기간과 동일한 사물함을 이용할 수 있다.")
+    @DisplayName("1인 고정석을 선택하면 고정석 이용 기간과 동일한 이용 기간의 사물함을 이용할 수 있다.")
     void fixedPassCanUseSameDurationLocker() {
         // given
         StudyCafeSeatPass fourWeeksOfPass = StudyCafeSeatPass.of(FIXED, 4, 10000, 0.1);
