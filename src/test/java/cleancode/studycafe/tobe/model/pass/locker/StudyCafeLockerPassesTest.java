@@ -52,11 +52,27 @@ class StudyCafeLockerPassesTest {
     }
 
     @Test
+    @DisplayName("사물함을 사용할 수 없는 이용권 종류일 경우 사물함 이용권을 구매할 수 없다.")
+    void cannotUseLockerWhenSeatPassIsNotLockerType() {
+        // given
+        StudyCafePassType[] types = StudyCafePassType.values();
+
+        // when // then
+        for (StudyCafePassType type : types) {
+            if(type.isNotLockerType()) {
+                StudyCafeSeatPass studyCafeSeatPass = StudyCafeSeatPass.of(type, 1, 1, 0.0);
+                Optional<StudyCafeLockerPass> lockerPass = lockerPasses.findLockerPassBy(studyCafeSeatPass);
+                assertThat(lockerPass).isEmpty();
+            }
+        }
+    }
+
+    @Test
     @DisplayName("1인 고정석을 선택하면 고정석 이용 기간과 동일한 이용 기간의 사물함을 이용할 수 있다.")
     void fixedPassCanUseSameDurationLocker() {
         // given
-        StudyCafeSeatPass fourWeeksOfPass = StudyCafeSeatPass.of(FIXED, 4, 10000, 0.1);
-        StudyCafeSeatPass twelveWeeksOfPass = StudyCafeSeatPass.of(FIXED, 12, 10000, 0.1);
+        StudyCafeSeatPass fourWeeksOfPass = StudyCafeSeatPass.of(FIXED, 4, 250000, 0.1);
+        StudyCafeSeatPass twelveWeeksOfPass = StudyCafeSeatPass.of(FIXED, 12, 700000, 0.1);
 
         // when
         Optional<StudyCafeLockerPass> fourWeeksOfLockerPass = lockerPasses.findLockerPassBy(fourWeeksOfPass);
