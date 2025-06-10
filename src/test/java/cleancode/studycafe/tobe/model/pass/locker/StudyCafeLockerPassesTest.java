@@ -26,7 +26,7 @@ class StudyCafeLockerPassesTest {
      * 구매할 수 없다 vs 사용할 수 없다
      */
     @Test
-    @DisplayName("시간 단위 이용권은 사물함을 사용할 수 없다.")
+    @DisplayName("시간 단위 이용권은 사물함을 구매할 수 없다")
     void hourlyPassCannotUseLocker() {
         // given
         StudyCafeSeatPass studyCafeSeatPass = StudyCafeSeatPass.of(HOURLY, 1, 1, 0.0);
@@ -38,8 +38,9 @@ class StudyCafeLockerPassesTest {
         assertThat(lockerPass).isEmpty();
     }
 
+    // TODO: Q1. 사물함을 구매할 수 없는 이용권 확인 테스트
     @Test
-    @DisplayName("주 단위 이용권은 사물함을 사용할 수 없다.")
+    @DisplayName("주 단위 이용권은 사물함을 구매할 수 없다.")
     void weeklyPassCannotUseLocker() {
         // given
         StudyCafeSeatPass studyCafeSeatPass = StudyCafeSeatPass.of(WEEKLY, 1, 1, 0.0);
@@ -68,7 +69,7 @@ class StudyCafeLockerPassesTest {
     }
 
     @Test
-    @DisplayName("1인 고정석을 선택하면 고정석 이용 기간과 동일한 이용 기간의 사물함을 이용할 수 있다.")
+    @DisplayName("1인 고정석을 선택하면 고정석 이용 기간과 동일한 이용 기간의 사물함을 구매할 수 있다.")
     void fixedPassCanUseSameDurationLocker() {
         // given
         StudyCafeSeatPass fourWeeksOfPass = StudyCafeSeatPass.of(FIXED, 4, 250000, 0.1);
