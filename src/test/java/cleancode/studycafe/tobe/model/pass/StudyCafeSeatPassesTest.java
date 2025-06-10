@@ -14,17 +14,34 @@ import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
 class StudyCafeSeatPassesTest {
 
-    private final SeatPassProvider seatPassProvider = new SeatPassFileReader();
+    private final StudyCafeSeatPasses seatPasses = StudyCafeSeatPasses.of(
+        List.of(
+            StudyCafeSeatPass.of(HOURLY, 2, 4000, 0.0),
+            StudyCafeSeatPass.of(HOURLY, 4, 6500, 0.0),
+            StudyCafeSeatPass.of(HOURLY, 6, 9000, 0.0),
+            StudyCafeSeatPass.of(HOURLY, 8, 11000, 0.0),
+            StudyCafeSeatPass.of(HOURLY, 10, 12000, 0.0),
+            StudyCafeSeatPass.of(HOURLY, 12, 13000, 0.0),
+            StudyCafeSeatPass.of(WEEKLY, 1, 60000, 0.0),
+            StudyCafeSeatPass.of(WEEKLY, 2, 100000, 0.0),
+            StudyCafeSeatPass.of(WEEKLY, 3, 130000, 0.0),
+            StudyCafeSeatPass.of(WEEKLY, 4, 150000, 0.0),
+            StudyCafeSeatPass.of(WEEKLY, 12, 400000, 0.0),
+            StudyCafeSeatPass.of(FIXED, 4, 250000, 0.0),
+            StudyCafeSeatPass.of(FIXED, 12, 700000, 0.0)
+        )
+    );
 
     /**
-     * 만약 시간권 종류가 추가된다면 테스트가 깨지게 될텐데 이 테스트 방식이 옳은 방식일까
+     * Q. 이용권 종류별로 테스트를 작성하지 않고, 하나의 종류에 대해서만 테스트 해도 되는지
+     *    - 궁극적인 목표는 '원하는 종류만 필터링'이 목표이므로 하나의 종류만 해도 되는 것일까
+     *    - DisplayName : 전체 이용권 목록 중에서 지정한 이용권 종류에 맞는 이용권 목록만 필터링되어 조회된다.
      */
     @Test
     @DisplayName("시간 단위 이용권을 선택하면 시간권 목록만 필터링하여 조회되어야 한다.")
     void findPassByHourly() {
         // given
         StudyCafePassType type = HOURLY;
-        StudyCafeSeatPasses seatPasses = seatPassProvider.getSeatPasses();
 
         // when
         List<StudyCafeSeatPass> findPasses = seatPasses.findPassBy(type);
@@ -47,7 +64,6 @@ class StudyCafeSeatPassesTest {
     void findPassByWeekly() {
         // given
         StudyCafePassType type = WEEKLY;
-        StudyCafeSeatPasses seatPasses = seatPassProvider.getSeatPasses();
 
         // when
         List<StudyCafeSeatPass> findPasses = seatPasses.findPassBy(type);
@@ -69,7 +85,6 @@ class StudyCafeSeatPassesTest {
     void findPassByFixed() {
         // given
         StudyCafePassType type = FIXED;
-        StudyCafeSeatPasses seatPasses = seatPassProvider.getSeatPasses();
 
         // when
         List<StudyCafeSeatPass> findPasses = seatPasses.findPassBy(type);

@@ -7,13 +7,20 @@ import cleancode.studycafe.tobe.provider.LockerPassProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static cleancode.studycafe.tobe.model.pass.StudyCafePassType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class StudyCafeLockerPassesTest {
-    private final LockerPassProvider lockerPassProvider = new LockerPassFileReader();
+
+    private final StudyCafeLockerPasses lockerPasses = StudyCafeLockerPasses.of(
+        List.of(
+            StudyCafeLockerPass.of(FIXED, 4, 10000),
+            StudyCafeLockerPass.of(FIXED, 12, 30000)
+        )
+    );
 
     /**
      * 구매할 수 없다 vs 사용할 수 없다
@@ -23,7 +30,6 @@ class StudyCafeLockerPassesTest {
     void hourlyPassCannotUseLocker() {
         // given
         StudyCafeSeatPass studyCafeSeatPass = StudyCafeSeatPass.of(HOURLY, 1, 1, 0.0);
-        StudyCafeLockerPasses lockerPasses = lockerPassProvider.getLockerPasses();
 
         // when
         Optional<StudyCafeLockerPass> lockerPass = lockerPasses.findLockerPassBy(studyCafeSeatPass);
@@ -37,7 +43,6 @@ class StudyCafeLockerPassesTest {
     void weeklyPassCannotUseLocker() {
         // given
         StudyCafeSeatPass studyCafeSeatPass = StudyCafeSeatPass.of(WEEKLY, 1, 1, 0.0);
-        StudyCafeLockerPasses lockerPasses = lockerPassProvider.getLockerPasses();
 
         // when
         Optional<StudyCafeLockerPass> lockerPass = lockerPasses.findLockerPassBy(studyCafeSeatPass);
@@ -52,7 +57,6 @@ class StudyCafeLockerPassesTest {
         // given
         StudyCafeSeatPass fourWeeksOfPass = StudyCafeSeatPass.of(FIXED, 4, 10000, 0.1);
         StudyCafeSeatPass twelveWeeksOfPass = StudyCafeSeatPass.of(FIXED, 12, 10000, 0.1);
-        StudyCafeLockerPasses lockerPasses = lockerPassProvider.getLockerPasses();
 
         // when
         Optional<StudyCafeLockerPass> fourWeeksOfLockerPass = lockerPasses.findLockerPassBy(fourWeeksOfPass);
